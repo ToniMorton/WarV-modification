@@ -1,0 +1,133 @@
+-- local TeamIDs = {
+--     ['BLUFOR'] = 1,
+--     ['OPFOR'] = 2,
+--     ['SPECTATOR'] = 3,
+-- }
+-- --vpool = nil
+-- IFFEnabled = false
+
+-- function DrawText3DBG(x, y, z, text)
+-- 	local onScreen, _x, _y = GetScreenCoordFromWorldCoord(x, y, z)
+--     local factor = (string.len(text)) / 370
+    
+--     if onScreen then
+--         SetTextScale(0.35, 0.35)
+--         SetTextFont(4)
+--         SetTextProportional(1)
+--         SetTextColour(255, 255, 255, 255)
+--         SetTextDropShadow()
+-- 		SetTextOutline()
+-- 		BeginTextCommandDisplayText("STRING")
+-- 		SetTextCentre(1)
+-- 		AddTextComponentSubstringPlayerName(text)
+-- 		EndTextCommandDisplayText(_x,_y)
+--         DrawRect(_x,_y + 0.0125, 0.015 + factor, 0.03, 0, 0, 0, 50)
+-- 	end
+-- end
+
+-- function DrawText3D(x, y, z, text)
+-- 	local onScreen, _x, _y = GetScreenCoordFromWorldCoord(x, y, z)
+--     local factor = (string.len(text)) / 370
+    
+--     if onScreen then
+--         SetTextScale(0.35, 0.35)
+--         SetTextFont(4)
+--         SetTextProportional(1)
+--         SetTextColour(255, 255, 255, 255)
+-- 		SetTextOutline()
+-- 		BeginTextCommandDisplayText("STRING")
+-- 		SetTextCentre(1)
+-- 		AddTextComponentSubstringPlayerName(text)
+-- 		EndTextCommandDisplayText(_x,_y)
+-- 	end
+-- end
+
+-- function ProcessIFF()
+--     local vpool = GetGamePool("CVehicle")
+--     local player = GetPlayerPed(-1)
+--     for i=1, #vpool do  
+--         if IsPedInAnyVehicle(player, false) then
+--             if GetVehicleClass(vpool[i]) == 15 or GetVehicleClass(vpool[i]) == 16 or GetVehicleClass(vpool[i]) == 19 then
+--                 IFFEnabled = true
+--             else
+--                 IFFEnabled = false
+--             end
+--         else
+--             IFFEnabled = false
+--         end
+--     end
+--     vpool = nil
+-- end
+
+-- Citizen.CreateThread(function()
+--     Citizen.SetInterval(500, ProcessIFF)
+-- end)
+
+
+-- Citizen.CreateThread(function()
+--     while true do
+--         while IFFEnabled do
+--             for i=1, #vpool do
+--                 local player = GetPlayerPed(-1)
+--                 local Friend = DecorGetInt(player, "TeamID")
+--                 local coords = GetEntityCoords(vpool[i])
+--                 if GetVehicleClass(vpool[i]) == 15 then
+--                     if DecorGetInt(vpool[i], "TeamID") == Friend then
+--                         DrawText3D(coords.x, coords.y, coords.z, "[IFF] : ~g~FRIENDLY~w~")     
+--                     else
+--                         DrawText3D(coords.x, coords.y, coords.z, "[IFF] : ~y~NO SIGNAL~w~")
+--                         SetVehicleCanBeLockedOn(vpool[i], true, false)
+--                     end
+--                 end
+--                 if GetVehicleClass(vpool[i]) == 16 then
+--                     if DecorGetInt(vpool[i], "TeamID") == Friend then
+--                         DrawText3D(coords.x, coords.y, coords.z, "[IFF] : ~g~FRIENDLY~w~")     
+--                     else
+--                         SetVehicleCanBeLockedOn(vpool[i], true, false)
+--                         DrawText3D(coords.x, coords.y, coords.z, "[IFF] : ~y~NO SIGNAL~w~")
+--                     end
+--                 end
+--                 if GetVehicleClass(vpool[i]) == 19 then
+--                     if DecorGetInt(vpool[i], "TeamID") == Friend then
+--                         DrawText3D(coords.x, coords.y, coords.z, "[IFF] : ~g~FRIENDLY~w~")     
+--                     else
+--                         SetVehicleCanBeLockedOn(vpool[i], true, false)
+--                         DrawText3D(coords.x, coords.y, coords.z, "[IFF] : ~y~NO SIGNAL~w~")
+--                     end
+--                 end
+--             end
+--             Citizen.Wait(0)
+--         end
+--         Citizen.Wait(0)
+--     end
+-- end)
+
+-- -- Citizen.CreateThread(function()
+-- --     local plr = GetPlayerPed(-1)
+-- --     while true do
+-- --         local plrVeh = GetVehiclePedIsIn(plr,false)
+-- --         if GetVehicleClass(plrVeh) == 15 or GetVehicleClass(plrVeh) == 16 or GetVehicleClass(plrVeh) == 19 then
+-- --             if IsControlJustPressed(0,86) then
+-- --                 if Flares <= 0 then
+-- --                     ShowNotification("~y~[WARNING]\n~w~Flares ~r~Depleted~w~!")
+-- --                 end
+-- --                 RequestWeaponAsset(GetHashKey("WEAPON_FLARE"), 31, 0)
+-- --                 while not HasWeaponAssetLoaded(GetHashKey("WEAPON_FLARE")) do
+-- --                     RequestWeaponAsset(GetHashKey("WEAPON_FLARE"), 31, 0)
+-- --                     Citizen.Wait(0)
+-- --                 end
+-- --                     local offset1 = GetOffsetFromEntityInWorldCoords(plrVeh, 0.0, -1.0, 1.8)
+-- --                     local offset2 = GetOffsetFromEntityInWorldCoords(plrVeh, 4.0, -1.8, 2.0)
+-- --                     local flare1 = ShootSingleBulletBetweenCoords(offset1.x, offset1.y, offset1.z, offset2.x, offset2.y, offset2.z, 0, false, GetHashKey("WEAPON_FLARE"), GetPlayerPed(-1), true, false, 50.0)
+            
+-- --                     local offset3 = GetOffsetFromEntityInWorldCoords(plrVeh, 0.0, -1.0, 1.8)
+-- --                     local offset4 = GetOffsetFromEntityInWorldCoords(plrVeh, -4.0, -1.8, 2.0)
+-- --                     local flare2 = ShootSingleBulletBetweenCoords(offset3.x, offset3.y, offset3.z, offset4.x, offset4.y, offset4.z, 0, false, GetHashKey("WEAPON_FLARE"), GetPlayerPed(-1), true, false, 50.0)
+-- --                     Flares = Flares - 2
+-- -- 					DecorSetInt(plrVeh, "FlareCount", Flares)
+-- --                     RemoveWeaponAsset(GetHashKey("WEAPON_FLARE"))
+-- --             end
+-- --         end
+-- --         Citizen.Wait(0)
+-- --     end
+-- -- end)
